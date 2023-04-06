@@ -1,6 +1,6 @@
 # MHCSeqNet2
 
-This is the official repository containing the code to reproduce result founded on a research paper titiled `MHCSeqNet2 - Improved Peptide-Class I MHC Binding Prediction for Alleles with Low Data`
+This is the official repository containing the code to reproduce result founded on a research paper titled `MHCSeqNet2 - Improved Peptide-Class I MHC Binding Prediction for Alleles with Low Data`
 
 ## Index
 
@@ -162,7 +162,7 @@ python scripts/make_figure_auc_full_vs_few_zoom.py
 ## How to Train Prediction Model
 
 1. Visit [Data Preparation](#data-preparation)
-2. Obtain [pretrain weght](#how-to-obtain-the-embedding-weight) or train the [pre-train model](#how-to-train-pre-training-model)
+2. Obtain [pre-train weight](#how-to-obtain-the-embedding-weight) or train the [pre-train model](#how-to-train-pre-training-model)
 2. Run the following commands to start training
 
   Please note that each fold can be trained simultaneously
@@ -241,7 +241,7 @@ python train.py \
 
 ## How to Train Pre-Training Model
 
-For how to train pllele pre-training model, stay tuned!  
+For how to train peptide pre-training model, stay tuned!  
 For now, you could obtain the pre-train embedding from release
 
 ### How to Train 3D Allele Pre-Training Model
@@ -300,7 +300,7 @@ wget -c https://github.com/cmb-chula/MHCSeqNet2/releases/download/v1.0/raw_3d_da
 2. Run prepare script to create dataset
 
 ```shell
-python scripts/prepare_pretraining_human_protien.py
+python scripts/prepare_pretraining_human_protein.py
 python scripts/prepare_pretraining_3d_allele.py
 ```
 
