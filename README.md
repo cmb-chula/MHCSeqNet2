@@ -20,7 +20,7 @@ This is the official repository containing the code to reproduce result founded 
 
 1. Clone this repository
 
-```bash
+```shell
 git clone https://github.com/cmb-chula/MHCSeqNet2.git
 ```
 
@@ -28,13 +28,13 @@ git clone https://github.com/cmb-chula/MHCSeqNet2.git
 
 3. Use this command to create container
 
-```bash
+```shell
 docker-compose up -d --build
 ```
 
 4. Then you are free to access the container using exec
 
-```bash
+```shell
 docker exec -it zenthesisv2-dev-mhcseqnet2-1 bash
 ```
 
@@ -42,14 +42,14 @@ docker exec -it zenthesisv2-dev-mhcseqnet2-1 bash
 
 1. First you must obtain/[train](#how-to-train-prediction-model) the prediction model weight
 
-```bash
+```shell
 mkdir -p resources/trained_weight/
 wget -c https://github.com/cmb-chula/MHCSeqNet2/releases/download/v1.0/final_model.tar.gz -O - | tar -xz -C resources/trained_weight/
 ```
 
 2. You can use file `mhctool.py` to view the usage and available options.
 
-```
+```shell
 $ python mhctool.py --help
 usage: mhctool.py [-h] [--MODE {CSV,CROSS}] [--CSV_PATH CSV_PATH] [--PEPTIDE_COLUMN_NAME PEPTIDE_COLUMN_NAME] [--ALLELE_COLUMN_NAME ALLELE_COLUMN_NAME] [--PEPTIDE_PATH PEPTIDE_PATH]
                   [--ALLELE_PATH ALLELE_PATH] [--IGNORE_UNKNOW] [--LOG_UNKNOW] [--LOG_UNKNOW_PATH LOG_UNKNOW_PATH] [--GPU_ID GPU_ID] [--USE_ENSEMBLE]
@@ -155,7 +155,7 @@ KFOLD_RESULT_PATH: typing.List[typing.Tuple[str, str, str, str, bool, bool, str]
 
 3. Run make figure script
 
-```bash
+```shell
 python scripts/make_figure_auc_full_vs_few_zoom.py
 ```
 
@@ -167,7 +167,7 @@ python scripts/make_figure_auc_full_vs_few_zoom.py
 
   Please note that each fold can be trained simultaneously
 
-```bash
+```shell
 python train.py \
     --dataset=MSI011320 \
     --root_dir=resources/datasets \
@@ -249,7 +249,7 @@ For now, you could obtain the pre-train embedding from release
 1. Visit [Data Preparation](#data-preparation)
 2. Train with the command below
 
-```bash
+```shell
 python train.py \
     --MODEL_TYPE=GloVeFastText \
     --dataset=PRETRAIN_3D \
@@ -270,14 +270,14 @@ python train.py \
 
 4. ~~Extract the embedding weight~~
 
-```bash
+```shell
 # python scripts/extract_embedding.py
 echo "After the training is completed, central and context embedding weight will be available in the saved model folder"
 ```
 
 ### How to obtain the embedding weight
 
-```bash
+```shell
 mkdir -p resources/intermediate_netmhc2/
 mkdir -p resources/trained_weight/embedding-3d/
 wget -c https://github.com/cmb-chula/MHCSeqNet2/releases/download/v1.0/peptide_central_embedding.tar.gz -O - | tar -xz -C resources/intermediate_netmhc2/
@@ -290,7 +290,7 @@ wget -c https://github.com/cmb-chula/MHCSeqNet2/releases/download/v1.0/central_e
 
 1. Obtain raw 3D allele and peptide dataset from release page
 
-```bash
+```shell
 mkdir -p resources/datasets/PRETRAIN_HUMAN_PROTEIN/
 mkdir -p resources/datasets/PRETRAIN_3D/
 wget -c https://github.com/cmb-chula/MHCSeqNet2/releases/download/v1.0/humanProtein_peptide.tar.gz -O - | tar -xz -C resources/datasets/PRETRAIN_HUMAN_PROTEIN/
@@ -299,7 +299,7 @@ wget -c https://github.com/cmb-chula/MHCSeqNet2/releases/download/v1.0/raw_3d_da
 
 2. Run prepare script to create dataset
 
-```bash
+```shell
 python scripts/prepare_pretraining_human_protien.py
 python scripts/prepare_pretraining_3d_allele.py
 ```
@@ -308,7 +308,7 @@ python scripts/prepare_pretraining_3d_allele.py
 
 1. Obtain dataset from release page
 
-```bash
+```shell
 mkdir -p resources/datasets/raw_datasets/
 wget -c https://github.com/cmb-chula/MHCSeqNet2/releases/download/v1.0/HLA_classI_MS_dataset_011320.tar.gz -O - | tar -xz -C resources/datasets/raw_datasets/
 wget -c https://github.com/cmb-chula/MHCSeqNet2/releases/download/v1.0/antigen_information_051821_rev1.tar.gz -O - | tar -xz -C resources/datasets/raw_datasets/
@@ -316,6 +316,6 @@ wget -c https://github.com/cmb-chula/MHCSeqNet2/releases/download/v1.0/antigen_i
 
 2. Run prepare script to create dataset
 
-```bash
+```shell
 python scripts/prepare.py
 ```
