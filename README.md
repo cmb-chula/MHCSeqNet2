@@ -2,6 +2,20 @@
 
 This is the official repository containing the code to reproduce result founded on a research paper titiled `MHCSeqNet2 - Improved Peptide-Class I MHC Binding Prediction for Alleles with Low Data`
 
+## Index
+
+- [How to prepare Environment](#how-to-prepare-environment)
+- [How to Inference](#how-to-inference)
+  -  [How to Reproduce Inference Result](#how-to-reproduce-inference-result)
+  -  [How to Reproduce Figure](#how-to-reproduce-figure)
+- [How to Train Prediction Model](#how-to-train-prediction-model)
+- [How to Train Pre-Training Model](#how-to-train-pre-training-model)
+  - [How to Train 3D Allele Pre-Training Model](#how-to-train-3d-allele-pre-training-model)
+  - [How to obtain the embedding weight](#how-to-obtain-the-embedding-weight)
+- [Data Preparation](#data-preparation)
+  - [Prepare Pre-training Dataset](#prepare-pre-training-dataset)
+  - [Prepare Predictor Dataset](#prepare-predictor-dataset)
+
 ## How to prepare Environment
 
 1. Clone this repository
