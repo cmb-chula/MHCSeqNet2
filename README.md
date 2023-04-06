@@ -129,7 +129,7 @@ python mhctool.py \
 
 ### How to Reproduce Figure
 
-1. Obtain/train predictor model
+1. [Obtain](#how-to-inference)/[train](#how-to-train-prediction-model) predictor model
 
 2. Edit `scripts/make_figure_auc_full_vs_few_zoom.py` file in section `KFOLD_RESULT_PATH` to match with your model path
 
