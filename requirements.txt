@@ -1,0 +1,6 @@
+pandas
+scikit-learn
+matplotlib
+
+# dev requirement
+autopep8

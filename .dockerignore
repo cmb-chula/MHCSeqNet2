@@ -1,0 +1,6 @@
+# Ignore everything, we don't need any files
+**
+
+# Allow files
+!requirements.txt
+
