@@ -16,6 +16,13 @@ This is the official repository containing the code to reproduce result founded 
   - [Prepare Pre-training Dataset](#prepare-pre-training-dataset)
   - [Prepare Predictor Dataset](#prepare-predictor-dataset)
 
+## Quick Message from the owner
+
+To avoid confusion, I accidentally set the training label in reverse order.  
+This resulted in prediction `0` means `bind` while `1` means `not bind`.  
+And `isGenerated` Column is reversed order as well.  
+I want to express my sincere apology here, if there is a new version and the issue has been resolved, I'll announce it.  
+
 ## How to prepare Environment
 
 1. Clone this repository
@@ -35,7 +42,7 @@ docker-compose up -d --build
 4. Then you are free to access the container using exec
 
 ```shell
-docker exec -it zenthesisv2-dev-mhcseqnet2-1 bash
+docker exec -it mhcseqnet2_dev-mhcseqnet2_1 bash
 ```
 
 ## How to Inference
@@ -47,7 +54,9 @@ mkdir -p resources/trained_weight/
 wget -c https://github.com/cmb-chula/MHCSeqNet2/releases/download/v1.0/final_model.tar.gz -O - | tar -xz -C resources/trained_weight/
 ```
 
-2. You can use file `mhctool.py` to view the usage and available options.
+2. You can use file `mhctool.py` to view the usage and available options\*\*.
+
+  \*\*For real application it's recommended to always include `--USE_ENSEMBLE` flag\*\*
 
 ```shell
 $ python mhctool.py --help
@@ -75,6 +84,7 @@ optional arguments:
   --LOG_UNKNOW          if setted it will log the unknown that was skipped
   --LOG_UNKNOW_PATH LOG_UNKNOW_PATH
                         the file which the unknow will be logged to
+  --MODEL_KF MODEL_KF   specify model weight to use, if not using ensemble
   --GPU_ID GPU_ID       default GPU, you can specify a GPU to be used by given a number i.e, `--GPU_ID 0`
   --USE_ENSEMBLE        Run the result multiple times on multiple models and use the average as the score
   --MODEL_TYPE {MHCSeqNet2,MHCSeqNet2_GRUPeptide,GloVeFastText,MultiHeadGloVeFastTextSplit,MultiHeadGloVeFastTextJointed}
@@ -97,6 +107,8 @@ But to reproduce the result, one could use the following commands.
 python mhctool.py \
     --MODE CSV \
     --CSV_PATH "resources/datasets/MSI011320/HLA_classI_MS_dataset_011320_processed_kf-1_test.csv" \
+    --IGNORE_UNKNOW \
+    --MODEL_KF 0 \
     --PEPTIDE_COLUMN_NAME Peptide \
     --ALLELE_COLUMN_NAME Allele \
     --GPU_ID 0 \
@@ -106,6 +118,8 @@ python mhctool.py \
 python mhctool.py \
     --MODE CSV \
     --CSV_PATH "resources/datasets/MSI011320/HLA_classI_MS_dataset_011320_processed_kf-2_test.csv" \
+    --IGNORE_UNKNOW \
+    --MODEL_KF 1 \
     --PEPTIDE_COLUMN_NAME Peptide \
     --ALLELE_COLUMN_NAME Allele \
     --GPU_ID 0 \
@@ -115,6 +129,8 @@ python mhctool.py \
 python mhctool.py \
     --MODE CSV \
     --CSV_PATH "resources/datasets/MSI011320/HLA_classI_MS_dataset_011320_processed_kf-3_test.csv" \
+    --IGNORE_UNKNOW \
+    --MODEL_KF 2 \
     --PEPTIDE_COLUMN_NAME Peptide \
     --ALLELE_COLUMN_NAME Allele \
     --GPU_ID 0 \
@@ -124,6 +140,8 @@ python mhctool.py \
 python mhctool.py \
     --MODE CSV \
     --CSV_PATH "resources/datasets/MSI011320/HLA_classI_MS_dataset_011320_processed_kf-4_test.csv" \
+    --IGNORE_UNKNOW \
+    --MODEL_KF 3 \
     --PEPTIDE_COLUMN_NAME Peptide \
     --ALLELE_COLUMN_NAME Allele \
     --GPU_ID 0 \
@@ -133,6 +151,8 @@ python mhctool.py \
 python mhctool.py \
     --MODE CSV \
     --CSV_PATH "resources/datasets/MSI011320/HLA_classI_MS_dataset_011320_processed_kf-5_test.csv" \
+    --IGNORE_UNKNOW \
+    --MODEL_KF 4 \
     --PEPTIDE_COLUMN_NAME Peptide \
     --ALLELE_COLUMN_NAME Allele \
     --GPU_ID 0 \

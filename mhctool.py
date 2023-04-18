@@ -67,11 +67,11 @@ def main():
     model = build_model(args=args)
     # TODO: mode MODEL_WEIGHT_PATH to args
     MODEL_WEIGHT_PATHS_TEMP = [
-        'experiment2_combine_msi_anti/combine_msi_anti_both_pretrain_256-exp4_3d_fix_neg_allele_distance_45/combine_msi_anti_both_pretrain_256-exp4_3d_fix_neg_allele_distance_45_1-5/MHCSeqNet2_1_5.h5',
-        'experiment2_combine_msi_anti/combine_msi_anti_both_pretrain_256-exp4_3d_fix_neg_allele_distance_45/combine_msi_anti_both_pretrain_256-exp4_3d_fix_neg_allele_distance_45_2-5/MHCSeqNet2_2_5.h5',
-        'experiment2_combine_msi_anti/combine_msi_anti_both_pretrain_256-exp4_3d_fix_neg_allele_distance_45/combine_msi_anti_both_pretrain_256-exp4_3d_fix_neg_allele_distance_45_3-5/MHCSeqNet2_3_5.h5',
-        'experiment2_combine_msi_anti/combine_msi_anti_both_pretrain_256-exp4_3d_fix_neg_allele_distance_45/combine_msi_anti_both_pretrain_256-exp4_3d_fix_neg_allele_distance_45_4-5/MHCSeqNet2_4_5.h5',
-        'experiment2_combine_msi_anti/combine_msi_anti_both_pretrain_256-exp4_3d_fix_neg_allele_distance_45/combine_msi_anti_both_pretrain_256-exp4_3d_fix_neg_allele_distance_45_5-5/MHCSeqNet2_5_5.h5',
+        'resources/trained_weight/final_model/finnal_model_1-5/MHCSeqNet2_1_5.h5',
+        'resources/trained_weight/final_model/finnal_model_2-5/MHCSeqNet2_2_5.h5',
+        'resources/trained_weight/final_model/finnal_model_3-5/MHCSeqNet2_3_5.h5',
+        'resources/trained_weight/final_model/finnal_model_4-5/MHCSeqNet2_4_5.h5',
+        'resources/trained_weight/final_model/finnal_model_5-5/MHCSeqNet2_5_5.h5',
     ]
     # TODO: properly treat USE_ENSEMBLE flag, need to check if we need to rebuild inference_pipeline
     prediction_list = []
@@ -81,7 +81,7 @@ def main():
             prediction_list.append(model.predict(inference_pipeline, steps=int(dataset_size_inference / batch_size_test), verbose=1))
         prediction = np.mean(prediction_list, axis=0)
     else:
-        MODEL_WEIGHT_PATH = MODEL_WEIGHT_PATHS_TEMP[-1]
+        MODEL_WEIGHT_PATH = MODEL_WEIGHT_PATHS_TEMP[args.MODEL_KF]
         model.load_weights(MODEL_WEIGHT_PATH)
         prediction = model.predict(inference_pipeline, steps=int(dataset_size_inference / batch_size_test), verbose=1)
     base_output_path, _output_fname = os.path.split(args.OUTPUT_DIRECTORY)

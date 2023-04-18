@@ -104,6 +104,8 @@ if __name__ == '__main__':
             plotTraing(callback_hist, k_fold_num=kfold, save_path=save_folder)
             logging.info((f'Training best epoch at {callback_hist.epoch[np.argmax(callback_hist.history[TrainOption.early_stop_monitor])]}'
                           f', with max {TrainOption.early_stop_monitor} = {np.max(callback_hist.history[TrainOption.early_stop_monitor])}'))
+            # Load best weight before making the prediction
+            model.load_weights(weight_path)
             prediction = model.predict(testPipeline, steps=int(dataset_size_test / TrainOption.batch_size_test), verbose=1)
             dataset_cls.save_result(args, kfold, prediction_test_path, prediction)
             dataset_size.shm.close()
@@ -175,8 +177,9 @@ if __name__ == '__main__':
         logging.info((f'Training best epoch at {callback_hist.epoch[np.argmax(callback_hist.history[TrainOption.early_stop_monitor])]}'
                       f', with max {TrainOption.early_stop_monitor} = {np.max(callback_hist.history[TrainOption.early_stop_monitor])}'))
         # prediction = model.predict(testPipeline, steps=int(dataset_size_test / TrainOption.batch_size_test), verbose=1)
-        # TODO: save the result to a npy file
-
+        # Load best weight before making the prediction
+        model.load_weights(weight_path)
+        # save the result to a npy file
         central_embeddings_matrix: np.ndarray = np.copy(model.get_layer('central_embeddings').get_weights()[0])  # we use central embedding, but why?
         context_embeddings_matrix: np.ndarray = np.copy(model.get_layer('context_embeddings').get_weights()[0])
         central_embeddings_matrix_path = os.path.join(save_folder, 'central_embeddings_matrix.npy')

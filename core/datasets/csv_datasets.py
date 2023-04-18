@@ -46,6 +46,7 @@ class CSVDataset(tf.data.Dataset):
             pass
         csv_path = csv_path.decode("utf-8")
         phase_index = ['train', 'eval', 'test'].index(phase)
+        ALLELE_COL = cls.DEFAULT_ALLELE_COL
 
         def log(msg: str):
             if will_log:
@@ -55,13 +56,14 @@ class CSVDataset(tf.data.Dataset):
         data_df: pd.DataFrame = pd.read_csv(csv_path, index_col=0, dtype={"HLA Allele": str, "Report Status": str, "IEDB Status": str, "Is Outlier": str,
                                             "has_binding_test": 'boolean', "isin_MSI011320": 'boolean', "is_outlier": 'boolean'})  # chunksize=num_positive # use chunk or batch() which one is better
         if not cls.include_unknown_allele:
+            if 'isKnownAllele' not in data_df.columns:
+                data_df.loc[:, 'isKnownAllele'] = data_df[ALLELE_COL].isin(HLAProcessor.mapper.keys())
             log(f"[{cls.__name__}] [{phase}] Removed unknown allele, dropeed {sum(data_df['isKnownAllele'] == False)}/{len(data_df)} rows")
             data_df = data_df.loc[data_df['isKnownAllele']]
         dataset_size = shared_memory.ShareableList(name=f'{cls.__name__}_{experiment_name}_{kfold}_dataset_size')
         dataset_size[phase_index] = len(data_df)
 
         # data_df = data_df.reset_index(drop=True)
-        ALLELE_COL = cls.DEFAULT_ALLELE_COL
         if is_map_allele2index:
             data_df.loc[:, 'Allele_index'] = data_df[ALLELE_COL].apply(lambda x: HLAProcessor.mapper2index[x])  # .astype(np.int32)
             ALLELE_COL = 'Allele_index'
@@ -92,6 +94,7 @@ class CSVDataset(tf.data.Dataset):
             assert 'inference' in experiment_name, "only during inference that we doesn't generate"
             data_df.loc[:, 'isGenerated'] = False
 
+        # FIXME: This is where I tricked myself, isGenerated should be 1 not 0
         for row_allele, row_peptide, row_is_gen in zip(data_df[ALLELE_COL], data_df[PEPTIDE_COL], data_df['isGenerated'].apply(lambda isGenerated: 0 if isGenerated else 1)):
             yield row_allele, row_peptide, row_is_gen
 

@@ -531,7 +531,7 @@ def build_custom_csv_dataset(args: MHCToolOption):
 
     class CustomCSVDataset(CSVDataset):
         home_dir = csv_home_dir
-        include_unknown_allele = True  # TODO: make the parser to load the known allele first
+        include_unknown_allele = not args.IGNORE_UNKNOW  # TODO: make the parser to load the known allele first
 
         @classmethod
         def get_csv_path(cls, kfold: int, phase: typing.Literal['train', 'eval', 'test'], root_dir: typing.Optional[str] = None):

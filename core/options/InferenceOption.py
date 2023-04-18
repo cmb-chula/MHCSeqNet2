@@ -18,8 +18,9 @@ class MHCToolOption(object):
     IGNORE_UNKNOW: bool = True
     LOG_UNKNOW: bool = False
     LOG_UNKNOW_PATH: str = "log.txt"
+    MODEL_KF: int = 0
     GPU_ID: int = -1
-    USE_ENSEMBLE: bool = True
+    USE_ENSEMBLE: bool = False
     MODEL_TYPE: Literal['MHCSeqNet2', 'MHCSeqNet2_GRUPeptide', 'GloVeFastText', 'MultiHeadGloVeFastTextSplit', 'MultiHeadGloVeFastTextJointed'] = 'MHCSeqNet2'
     ALLELE_MAPPER_PATH: str = "resources/allele_mapper"
     OUTPUT_DIRECTORY: str = "output.csv"
@@ -38,6 +39,7 @@ class MHCToolOption(object):
             f"  IGNORE_UNKNOW: {MHCToolOption.IGNORE_UNKNOW}\n"
             f"  LOG_UNKNOW: {MHCToolOption.LOG_UNKNOW}\n"
             f"  LOG_UNKNOW_PATH: {MHCToolOption.LOG_UNKNOW_PATH}\n"
+            f"  MODEL_KF: {MHCToolOption.MODEL_KF}\n"
             f"  GPU_ID: {MHCToolOption.GPU_ID}\n"
             f"  USE_ENSEMBLE: {MHCToolOption.USE_ENSEMBLE}\n"
             f"  MODEL_TYPE: {MHCToolOption.MODEL_TYPE}\n"
@@ -89,6 +91,7 @@ inferenceParser.add_argument('--ALLELE_PATH', default=MHCToolOption.ALLELE_PATH,
 inferenceParser.add_argument('--IGNORE_UNKNOW', default=MHCToolOption.IGNORE_UNKNOW, action='store_true', help='if setted it will skip the unknown')
 inferenceParser.add_argument('--LOG_UNKNOW', default=MHCToolOption.LOG_UNKNOW, action='store_true', help='if setted it will log the unknown that was skipped')
 inferenceParser.add_argument('--LOG_UNKNOW_PATH', default=MHCToolOption.LOG_UNKNOW_PATH, type=str, help='the file which the unknow will be logged to')
+inferenceParser.add_argument('--MODEL_KF', default=MHCToolOption.MODEL_KF, type=int, help='specify model weight to use, if not using ensemble')
 inferenceParser.add_argument('--GPU_ID', default=MHCToolOption.GPU_ID, type=int, help='default GPU, you can specify a GPU to be used by given a number i.e, `--GPU_ID 0`')
 inferenceParser.add_argument('--USE_ENSEMBLE', default=MHCToolOption.USE_ENSEMBLE, action='store_true',
                              help='Run the result multiple times on multiple models and use the average as the score')
@@ -96,7 +99,7 @@ inferenceParser.add_argument('--MODEL_TYPE', default=MHCToolOption.MODEL_TYPE, t
                              choices=['MHCSeqNet2', 'MHCSeqNet2_GRUPeptide', 'GloVeFastText', 'MultiHeadGloVeFastTextSplit', 'MultiHeadGloVeFastTextJointed'], help='specify model to use')
 inferenceParser.add_argument('--ALLELE_MAPPER_PATH', default=MHCToolOption.ALLELE_MAPPER_PATH, type=str,
                              help='path to the folder that contain yaml file needed for the tool.\nYou can use this to add a new allele, please visit readme for more')
-inferenceParser.add_argument('--OUTPUT_DIRECTORY', default=MHCToolOption.OUTPUT_DIRECTORY, type=str, help='where to save the final result to (only .csv or .tsv)')
+inferenceParser.add_argument('--OUTPUT_DIRECTORY', default=MHCToolOption.OUTPUT_DIRECTORY, type=str, help='where to save the final result to (only .csv or .tsv). **The output column name is `Prediction` where 0 mean bind and 1 mean otherwise**')
 inferenceParser.add_argument('--TEMP_FILE_PATH', default=MHCToolOption.TEMP_FILE_PATH, type=str,
                              help='path to intermediate result file\nto maintain system compatibility and stability, the program need to store intermediate result.')
 # Internal args
