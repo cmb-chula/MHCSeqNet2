@@ -6,10 +6,10 @@ This is the official repository containing the code to reproduce result founded 
 
 - [How to prepare Environment](#how-to-prepare-environment)
 - [How to Inference](#how-to-inference)
-  -  [How to Reproduce Inference Result](#how-to-reproduce-inference-result)
+  - [How to Reproduce Inference Result](#how-to-reproduce-inference-result)
     - [Reproduce Result from Model with Publicly Available Dataset](#reproduce-result-from-model-with-publicly-available-dataset)
     - [Reproduce Result from Model with SMSNet Dataset](#reproduce-result-from-model-with-smsnet-dataset)
-  -  [How to Reproduce Figure](#how-to-reproduce-figure)
+  - [How to Reproduce Figure](#how-to-reproduce-figure)
 - [How to Train Prediction Model](#how-to-train-prediction-model)
 - [How to Train Pre-Training Model](#how-to-train-pre-training-model)
   - [How to Train 3D Allele Pre-Training Model](#how-to-train-3d-allele-pre-training-model)
