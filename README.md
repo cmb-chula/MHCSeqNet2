@@ -7,6 +7,8 @@ This is the official repository containing the code to reproduce result founded 
 - [How to prepare Environment](#how-to-prepare-environment)
 - [How to Inference](#how-to-inference)
   -  [How to Reproduce Inference Result](#how-to-reproduce-inference-result)
+    - [Reproduce Result from Model with Publicly Available Dataset](#reproduce-result-from-model-with-publicly-available-dataset)
+    - [Reproduce Result from Model with SMSNet Dataset](#reproduce-result-from-model-with-smsnet-dataset)
   -  [How to Reproduce Figure](#how-to-reproduce-figure)
 - [How to Train Prediction Model](#how-to-train-prediction-model)
 - [How to Train Pre-Training Model](#how-to-train-pre-training-model)
@@ -52,6 +54,8 @@ docker exec -it mhcseqnet2_dev-mhcseqnet2_1 bash
 ```shell
 mkdir -p resources/trained_weight/
 wget -c https://github.com/cmb-chula/MHCSeqNet2/releases/download/v1.0/final_model.tar.gz -O - | tar -xz -C resources/trained_weight/
+# By default mhctool.py will uses final_model_with_smsnetdata as its weight
+wget -c https://github.com/cmb-chula/MHCSeqNet2/releases/download/v1.0/final_model_with_smsnetdata.tar.gz -O - | tar -xz -C resources/trained_weight/
 ```
 
 2. You can use file `mhctool.py` to view the usage and available options\*\*.
@@ -101,7 +105,13 @@ optional arguments:
 ### How to Reproduce Inference Result
 
 Normally, after training has completed, `train.py` will predict the result of each CV on its test set.  
-But to reproduce the result, one could use the following commands.
+But to reproduce the result, one could use the following steps.
+
+#### Reproduce Result from Model with Publicly Available Dataset
+
+1. Edit model weight to limit to publicly available data at file [`mhctool.py`](https://github.com/cmb-chula/MHCSeqNet2/blob/0029715a78bc2336ac19b1f731c365daaa40fb42/mhctool.py#L69-L82)
+
+2. Use the following commands
 
 ```code
 python mhctool.py \
@@ -159,6 +169,70 @@ python mhctool.py \
     --ALLELE_MAPPER_PATH resources/allele_mapper \
     --OUTPUT_DIRECTORY "/tmp/prediction_result/HLA_classI_MS_dataset_011320_processed_kf-5_test_raw.csv" \
     --TEMP_FILE_PATH "/tmp/prediction_result/_tmp_HLA_classI_MS_dataset_011320_processed_kf-5_test_raw.csv"
+```
+
+#### Reproduce Result from Model with SMSNet Dataset
+
+1. Edit model weight to limit to SMSNet data (If you hadn't edited anything yet, there's nothing to change) at file [`mhctool.py`](https://github.com/cmb-chula/MHCSeqNet2/blob/0029715a78bc2336ac19b1f731c365daaa40fb42/mhctool.py#L69-L82)
+
+2. Use the following commands
+
+```code
+python mhctool.py \
+    --MODE CSV \
+    --CSV_PATH "resources/datasets/MSI011320_ANTI051821Z_COMBINE/HLA_classI_MS_dataset_011320_antigen_information_051821_rev1_processed_kf-1_test.csv" \
+    --IGNORE_UNKNOW \
+    --MODEL_KF 0 \
+    --PEPTIDE_COLUMN_NAME Peptide \
+    --ALLELE_COLUMN_NAME Allele \
+    --GPU_ID 0 \
+    --ALLELE_MAPPER_PATH resources/allele_mapper \
+    --OUTPUT_DIRECTORY "/tmp/prediction_result/HLA_classI_MS_dataset_011320_antigen_information_051821_rev1_processed_kf-1_test.csv" \
+    --TEMP_FILE_PATH "/tmp/prediction_result/_tmp_HLA_classI_MS_dataset_011320_antigen_information_051821_rev1_processed_kf-1_test.csv"
+python mhctool.py \
+    --MODE CSV \
+    --CSV_PATH "resources/datasets/MSI011320_ANTI051821Z_COMBINE/HLA_classI_MS_dataset_011320_antigen_information_051821_rev1_processed_kf-2_test.csv" \
+    --IGNORE_UNKNOW \
+    --MODEL_KF 1 \
+    --PEPTIDE_COLUMN_NAME Peptide \
+    --ALLELE_COLUMN_NAME Allele \
+    --GPU_ID 0 \
+    --ALLELE_MAPPER_PATH resources/allele_mapper \
+    --OUTPUT_DIRECTORY "/tmp/prediction_result/HLA_classI_MS_dataset_011320_antigen_information_051821_rev1_processed_kf-2_test.csv" \
+    --TEMP_FILE_PATH "/tmp/prediction_result/_tmp_HLA_classI_MS_dataset_011320_antigen_information_051821_rev1_processed_kf-2_test.csv"
+python mhctool.py \
+    --MODE CSV \
+    --CSV_PATH "resources/datasets/MSI011320_ANTI051821Z_COMBINE/HLA_classI_MS_dataset_011320_antigen_information_051821_rev1_processed_kf-3_test.csv" \
+    --IGNORE_UNKNOW \
+    --MODEL_KF 2 \
+    --PEPTIDE_COLUMN_NAME Peptide \
+    --ALLELE_COLUMN_NAME Allele \
+    --GPU_ID 0 \
+    --ALLELE_MAPPER_PATH resources/allele_mapper \
+    --OUTPUT_DIRECTORY "/tmp/prediction_result/HLA_classI_MS_dataset_011320_antigen_information_051821_rev1_processed_kf-3_test.csv" \
+    --TEMP_FILE_PATH "/tmp/prediction_result/_tmp_HLA_classI_MS_dataset_011320_antigen_information_051821_rev1_processed_kf-3_test.csv"
+python mhctool.py \
+    --MODE CSV \
+    --CSV_PATH "resources/datasets/MSI011320_ANTI051821Z_COMBINE/HLA_classI_MS_dataset_011320_antigen_information_051821_rev1_processed_kf-4_test.csv" \
+    --IGNORE_UNKNOW \
+    --MODEL_KF 3 \
+    --PEPTIDE_COLUMN_NAME Peptide \
+    --ALLELE_COLUMN_NAME Allele \
+    --GPU_ID 0 \
+    --ALLELE_MAPPER_PATH resources/allele_mapper \
+    --OUTPUT_DIRECTORY "/tmp/prediction_result/HLA_classI_MS_dataset_011320_antigen_information_051821_rev1_processed_kf-4_test.csv" \
+    --TEMP_FILE_PATH "/tmp/prediction_result/_tmp_HLA_classI_MS_dataset_011320_antigen_information_051821_rev1_processed_kf-4_test.csv"
+python mhctool.py \
+    --MODE CSV \
+    --CSV_PATH "resources/datasets/MSI011320_ANTI051821Z_COMBINE/HLA_classI_MS_dataset_011320_antigen_information_051821_rev1_processed_kf-5_test.csv" \
+    --IGNORE_UNKNOW \
+    --MODEL_KF 4 \
+    --PEPTIDE_COLUMN_NAME Peptide \
+    --ALLELE_COLUMN_NAME Allele \
+    --GPU_ID 0 \
+    --ALLELE_MAPPER_PATH resources/allele_mapper \
+    --OUTPUT_DIRECTORY "/tmp/prediction_result/HLA_classI_MS_dataset_011320_antigen_information_051821_rev1_processed_kf-5_test.csv" \
+    --TEMP_FILE_PATH "/tmp/prediction_result/_tmp_HLA_classI_MS_dataset_011320_antigen_information_051821_rev1_processed_kf-5_test.csv"
 ```
 
 ### How to Reproduce Figure
@@ -253,6 +327,76 @@ python train.py \
     --embedding_allele_path=resources/trained_weight/embedding-3d/central_embeddings_matrix.npy \
     --save_path=resources/trained_weight/final_model \
     --experiment_name=final_model \
+    --epoch 420 \
+    --early_stop_patience 150 \
+    --batch_size_train=256 \
+    --batch_size_test=256
+```
+
+3. Or train model with SMSNet data using the following commands
+
+```shell
+python train.py \
+    --dataset=MSI011320_ANTI051821Z_COMBINE \
+    --root_dir=resources/datasets \
+    --run_kfold 1 \
+    --load_embedding_peptide \
+    --load_embedding_allele \
+    --embedding_allele_path=resources/trained_weight/embedding-3d/central_embeddings_matrix.npy \
+    --save_path=resources/trained_weight/final_model_with_smsnetdata \
+    --experiment_name=final_model_with_smsnetdata \
+    --epoch 420 \
+    --early_stop_patience 150 \
+    --batch_size_train=256 \
+    --batch_size_test=256
+python train.py \
+    --dataset=MSI011320_ANTI051821Z_COMBINE \
+    --root_dir=resources/datasets \
+    --run_kfold 2 \
+    --load_embedding_peptide \
+    --load_embedding_allele \
+    --embedding_allele_path=resources/trained_weight/embedding-3d/central_embeddings_matrix.npy \
+    --save_path=resources/trained_weight/final_model_with_smsnetdata \
+    --experiment_name=final_model_with_smsnetdata \
+    --epoch 420 \
+    --early_stop_patience 150 \
+    --batch_size_train=256 \
+    --batch_size_test=256
+python train.py \
+    --dataset=MSI011320_ANTI051821Z_COMBINE \
+    --root_dir=resources/datasets \
+    --run_kfold 3 \
+    --load_embedding_peptide \
+    --load_embedding_allele \
+    --embedding_allele_path=resources/trained_weight/embedding-3d/central_embeddings_matrix.npy \
+    --save_path=resources/trained_weight/final_model_with_smsnetdata \
+    --experiment_name=final_model_with_smsnetdata \
+    --epoch 420 \
+    --early_stop_patience 150 \
+    --batch_size_train=256 \
+    --batch_size_test=256
+python train.py \
+    --dataset=MSI011320_ANTI051821Z_COMBINE \
+    --root_dir=resources/datasets \
+    --run_kfold 4 \
+    --load_embedding_peptide \
+    --load_embedding_allele \
+    --embedding_allele_path=resources/trained_weight/embedding-3d/central_embeddings_matrix.npy \
+    --save_path=resources/trained_weight/final_model_with_smsnetdata \
+    --experiment_name=final_model_with_smsnetdata \
+    --epoch 420 \
+    --early_stop_patience 150 \
+    --batch_size_train=256 \
+    --batch_size_test=256
+python train.py \
+    --dataset=MSI011320_ANTI051821Z_COMBINE \
+    --root_dir=resources/datasets \
+    --run_kfold 5 \
+    --load_embedding_peptide \
+    --load_embedding_allele \
+    --embedding_allele_path=resources/trained_weight/embedding-3d/central_embeddings_matrix.npy \
+    --save_path=resources/trained_weight/final_model_with_smsnetdata \
+    --experiment_name=final_model_with_smsnetdata \
     --epoch 420 \
     --early_stop_patience 150 \
     --batch_size_train=256 \
