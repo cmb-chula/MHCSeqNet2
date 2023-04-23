@@ -526,7 +526,7 @@ def build_pipeline(args: TrainOption, kfold: int = None) -> typing.Tuple[tf.data
 
 def build_custom_csv_dataset(args: MHCToolOption):
 
-    # /media/zen3515/Data/Zenthesis/datasets/ANTI051821Z/antigen_information_051821_for_zen_processed_binding_test.tsv
+    # /media/zen3515/Data/Zenthesis/datasets/ANTI051821Z/antigen_information_051821_rev1_processed.csv
     csv_home_dir, csv_fname = os.path.split(os.path.abspath(args.CSV_PATH))
 
     class CustomCSVDataset(CSVDataset):

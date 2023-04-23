@@ -15,4 +15,4 @@ class MSI011320_ANTI051821Z_COMBINE(CSVDataset):
 
     @classmethod
     def get_csv_path(cls, kfold: int, phase: typing.Literal['train', 'eval', 'test'], root_dir: typing.Optional[str] = None):
-        return os.path.join(root_dir or cls.root_dir, cls.home_dir, f"HLA_classI_MS_dataset_011320_antigen_information_051821_for_zen_processed_kf-{kfold}_{phase}.csv")
+        return os.path.join(root_dir or cls.root_dir, cls.home_dir, f"HLA_classI_MS_dataset_011320_antigen_information_051821_rev1_processed_kf-{kfold}_{phase}.csv")
