@@ -243,7 +243,8 @@ def CHART_COLOR_CYCLE(i: int): return ["#e60049", "#0bb4ff", "#50e991", "#e6d800
 
 
 def get_traing_data_count_lookup(
-    TRAINING_DATA_CSV_PATH: str = 'resources/datasets/MSI011320_ANTI051821Z_COMBINE/HLA_classI_MS_dataset_011320_antigen_information_051821_rev1_processed_kf-###_train.csv',
+    # TRAINING_DATA_CSV_PATH: str = 'resources/datasets/MSI011320_ANTI051821Z_COMBINE/HLA_classI_MS_dataset_011320_antigen_information_051821_rev1_processed_kf-###_train.csv',
+    TRAINING_DATA_CSV_PATH: str = 'resources/datasets/MSI011320/HLA_classI_MS_dataset_011320_processed_kf-###_train.csv',
     KFOLD: typing.List[int] = [1],
 ):
     if TRAINING_DATA_CSV_PATH is not None:
@@ -260,7 +261,8 @@ def get_traing_data_count_lookup(
 
 
 def get_few_allele_set(
-    TRAINING_DATA_CSV_PATH: str = 'resources/datasets/MSI011320_ANTI051821Z_COMBINE/HLA_classI_MS_dataset_011320_antigen_information_051821_rev1_processed_kf-###_train.csv',
+    # TRAINING_DATA_CSV_PATH: str = 'resources/datasets/MSI011320_ANTI051821Z_COMBINE/HLA_classI_MS_dataset_011320_antigen_information_051821_rev1_processed_kf-###_train.csv',
+    TRAINING_DATA_CSV_PATH: str = 'resources/datasets/MSI011320/HLA_classI_MS_dataset_011320_processed_kf-###_train.csv',
     KFOLD: typing.List[int] = [1, 2, 3, 4, 5],
     FEW_ALLELE_THRESHOLD: typing.Tuple[int, int] = [0, 200],  # exclusive
 ):
