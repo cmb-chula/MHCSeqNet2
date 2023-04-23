@@ -213,8 +213,9 @@ if __name__ == "__main__":
         ax.set_title(f'(C) ROC for overall alleles')
         for exp_name, exp in sorted(experiment_result.items(), key=lambda x: x[1].result_overall.auc):
             exp_result = exp.result_overall
-            ax.plot(exp_result.fpr, exp_result.tpr, lw=2,
-                    label=f"{exp_name} (AUC={exp_result.auc:0.2f}, TPR={exp_result.tpr_at_0p5fpr:0.2f})", color=exp.chart_color, linestyle=get_chart_line_style(exp.name))
+            # (A) Doesn't need legend to obscure the graph
+            exp_label = None if i == 0 else f"{exp_name} (AUC={exp_result.auc:0.2f}, TPR={exp_result.tpr_at_0p5fpr:0.2f})"
+            ax.plot(exp_result.fpr, exp_result.tpr, lw=2, label=exp_label, color=exp.chart_color, linestyle=get_chart_line_style(exp.name))
             # ax.plot([0.05, 0.05], [0, 2], color='k', lw=1,
             #         label=f"0.05 FPR, {exp_name} TPR = {exp_result.tpr_at_0p5fpr:0.6f}")
         ax.plot([0.05, 0.05], [0, 2], color='k', lw=1)
@@ -233,8 +234,9 @@ if __name__ == "__main__":
         ax.set_title(f'(D) ROC for allele with few data')
         for exp_name, exp in sorted(experiment_result.items(), key=lambda x: x[1].result_few_allele.auc):
             exp_result = exp.result_few_allele
-            ax.plot(exp_result.fpr, exp_result.tpr, lw=2,
-                    label=f"{exp_name} (AUC={exp_result.auc:0.2f}, TPR={exp_result.tpr_at_0p5fpr:0.2f})", color=exp.chart_color, linestyle=get_chart_line_style(exp.name))
+            # (B) Doesn't need legend to obscure the graph
+            exp_label = None if i == 2 else f"{exp_name} (AUC={exp_result.auc:0.2f}, TPR={exp_result.tpr_at_0p5fpr:0.2f})"
+            ax.plot(exp_result.fpr, exp_result.tpr, lw=2, label=exp_label, color=exp.chart_color, linestyle=get_chart_line_style(exp.name))
             # ax.plot([0.05, 0.05], [0, 2], color='k', lw=1,
             #         label=f"0.05 FPR, {exp_name} TPR = {exp_result.tpr_at_0p5fpr:0.6f}")
         ax.plot([0.05, 0.05], [0, 2], color='k', lw=1)

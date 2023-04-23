@@ -77,33 +77,35 @@ if __name__ == '__main__':
                           loss=TrainOption.loss,
                           metrics=TrainOption.metrics)
             trainPipeline, evalPipeline, testPipeline = build_pipeline(args, kfold=kfold)
-            # callbacks
-            callbacks_list: List[Callback] = []
-            # Empirical result shown that monitor='val_acc' leads to better val auc and acc, so reduce_lr and early_stop used val_acc instead. we just save the best auc instead
-            checkpoint = ModelCheckpoint(weight_path, monitor=TrainOption.checkpoint_monitor, verbose=1, save_weights_only=True, save_best_only=True, mode='max')
-            reduce_lr = ReduceLROnPlateau(monitor=TrainOption.reduce_lr_monitor, patience=TrainOption.reduce_lr_patience, factor=TrainOption.reduce_lr_factor, min_lr=5e-4, verbose=1)
-            early_stop = EarlyStopping(monitor=TrainOption.early_stop_monitor, min_delta=0.0001, patience=TrainOption.early_stop_patience, verbose=1, mode='max')
-            callbacks_list.extend([checkpoint, reduce_lr, early_stop])
-            if len(TrainOption.weight_freezer_layers) > 0:
-                weight_freezer = WeightFreezerCallback(freezing_layers=TrainOption.weight_freezer_layers, freeze_epoch=TrainOption.weight_freezer_epoch)
-                callbacks_list.append(weight_freezer)
-            tensor_board = TensorBoard(log_dir=tensorboard_path)
-            log_callback = LambdaCallback(on_epoch_end=lambda epoch, logs: logging.info(
-                f"[Epoch: {epoch}] lr={logs['lr']}, loss={logs['loss']:.4f}, val_loss={logs['val_loss']:.4f}, acc={logs['acc']:.4f}, val_acc={logs['val_acc']:.4f}, auc={logs['auc']:.4f}, val_auc={logs['val_auc']:.4f}"))
-            # memory_debugger_callback = EpochMemoryDebuggerCallback()
-            callbacks_list.extend([tensor_board, log_callback])
-            dataset_size_train, dataset_size_eval, dataset_size_test = dataset_size
-            logging.info(f'dataset_size_train {dataset_size_train}, dataset_size_eval {dataset_size_eval}, dataset_size_test {dataset_size_test}')
-            callback_hist: History = model.fit(x=trainPipeline,
-                                               steps_per_epoch=int(dataset_size_train / (TrainOption.batch_size_train - int(TrainOption.batch_size_train * TrainOption.gen_neg_ratio))),
-                                               verbose=1,
-                                               validation_data=evalPipeline,
-                                               validation_steps=int(dataset_size_eval / TrainOption.batch_size_test),
-                                               epochs=TrainOption.epoch,
-                                               callbacks=callbacks_list)
-            plotTraing(callback_hist, k_fold_num=kfold, save_path=save_folder)
-            logging.info((f'Training best epoch at {callback_hist.epoch[np.argmax(callback_hist.history[TrainOption.early_stop_monitor])]}'
-                          f', with max {TrainOption.early_stop_monitor} = {np.max(callback_hist.history[TrainOption.early_stop_monitor])}'))
+            if TrainOption.epoch > 0:
+                # Else we could just load weight and predict
+                # callbacks
+                callbacks_list: List[Callback] = []
+                # Empirical result shown that monitor='val_acc' leads to better val auc and acc, so reduce_lr and early_stop used val_acc instead. we just save the best auc instead
+                checkpoint = ModelCheckpoint(weight_path, monitor=TrainOption.checkpoint_monitor, verbose=1, save_weights_only=True, save_best_only=True, mode='max')
+                reduce_lr = ReduceLROnPlateau(monitor=TrainOption.reduce_lr_monitor, patience=TrainOption.reduce_lr_patience, factor=TrainOption.reduce_lr_factor, min_lr=5e-4, verbose=1)
+                early_stop = EarlyStopping(monitor=TrainOption.early_stop_monitor, min_delta=0.0001, patience=TrainOption.early_stop_patience, verbose=1, mode='max')
+                callbacks_list.extend([checkpoint, reduce_lr, early_stop])
+                if len(TrainOption.weight_freezer_layers) > 0:
+                    weight_freezer = WeightFreezerCallback(freezing_layers=TrainOption.weight_freezer_layers, freeze_epoch=TrainOption.weight_freezer_epoch)
+                    callbacks_list.append(weight_freezer)
+                tensor_board = TensorBoard(log_dir=tensorboard_path)
+                log_callback = LambdaCallback(on_epoch_end=lambda epoch, logs: logging.info(
+                    f"[Epoch: {epoch}] lr={logs['lr']}, loss={logs['loss']:.4f}, val_loss={logs['val_loss']:.4f}, acc={logs['acc']:.4f}, val_acc={logs['val_acc']:.4f}, auc={logs['auc']:.4f}, val_auc={logs['val_auc']:.4f}"))
+                # memory_debugger_callback = EpochMemoryDebuggerCallback()
+                callbacks_list.extend([tensor_board, log_callback])
+                dataset_size_train, dataset_size_eval, dataset_size_test = dataset_size
+                logging.info(f'dataset_size_train {dataset_size_train}, dataset_size_eval {dataset_size_eval}, dataset_size_test {dataset_size_test}')
+                callback_hist: History = model.fit(x=trainPipeline,
+                                                steps_per_epoch=int(dataset_size_train / (TrainOption.batch_size_train - int(TrainOption.batch_size_train * TrainOption.gen_neg_ratio))),
+                                                verbose=1,
+                                                validation_data=evalPipeline,
+                                                validation_steps=int(dataset_size_eval / TrainOption.batch_size_test),
+                                                epochs=TrainOption.epoch,
+                                                callbacks=callbacks_list)
+                plotTraing(callback_hist, k_fold_num=kfold, save_path=save_folder)
+                logging.info((f'Training best epoch at {callback_hist.epoch[np.argmax(callback_hist.history[TrainOption.early_stop_monitor])]}'
+                            f', with max {TrainOption.early_stop_monitor} = {np.max(callback_hist.history[TrainOption.early_stop_monitor])}'))
             # Load best weight before making the prediction
             model.load_weights(weight_path)
             prediction = model.predict(testPipeline, steps=int(dataset_size_test / TrainOption.batch_size_test), verbose=1)
