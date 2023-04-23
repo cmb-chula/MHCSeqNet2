@@ -219,9 +219,10 @@ if __name__ == "__main__":
             # ax.plot([0.05, 0.05], [0, 2], color='k', lw=1,
             #         label=f"0.05 FPR, {exp_name} TPR = {exp_result.tpr_at_0p5fpr:0.6f}")
         ax.plot([0.05, 0.05], [0, 2], color='k', lw=1)
-        legend = ax.legend(loc="best")
         if i == 0:
             ax.set_title(f'(A) <0.05 FPR region for overall alleles')
+        else:
+            legend = ax.legend(loc="best")
 
     # plot low data
     for i in range(2, 4, 1):
@@ -240,9 +241,10 @@ if __name__ == "__main__":
             # ax.plot([0.05, 0.05], [0, 2], color='k', lw=1,
             #         label=f"0.05 FPR, {exp_name} TPR = {exp_result.tpr_at_0p5fpr:0.6f}")
         ax.plot([0.05, 0.05], [0, 2], color='k', lw=1)
-        legend = ax.legend(loc="best")
         if i == 2:
             ax.set_title(f'(B) <0.05 FPR region for allele with few data')
+        else:
+            legend = ax.legend(loc="best")
 
     axs[0].set_xlim(0, 0.05)
     axs[0].set_ylim(0.4, 1.0)
