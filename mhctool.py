@@ -67,11 +67,18 @@ def main():
     model = build_model(args=args)
     # TODO: mode MODEL_WEIGHT_PATH to args
     MODEL_WEIGHT_PATHS_TEMP = [
-        'resources/trained_weight/final_model/finnal_model_1-5/MHCSeqNet2_1_5.h5',
-        'resources/trained_weight/final_model/finnal_model_2-5/MHCSeqNet2_2_5.h5',
-        'resources/trained_weight/final_model/finnal_model_3-5/MHCSeqNet2_3_5.h5',
-        'resources/trained_weight/final_model/finnal_model_4-5/MHCSeqNet2_4_5.h5',
-        'resources/trained_weight/final_model/finnal_model_5-5/MHCSeqNet2_5_5.h5',
+        # For publicly available data
+        # 'resources/trained_weight/final_model/final_model_1-5/MHCSeqNet2_1_5.h5',
+        # 'resources/trained_weight/final_model/final_model_2-5/MHCSeqNet2_2_5.h5',
+        # 'resources/trained_weight/final_model/final_model_3-5/MHCSeqNet2_3_5.h5',
+        # 'resources/trained_weight/final_model/final_model_4-5/MHCSeqNet2_4_5.h5',
+        # 'resources/trained_weight/final_model/final_model_5-5/MHCSeqNet2_5_5.h5',
+        # For publicly available data + SMSNet data
+        'resources/trained_weight/final_model_with_smsnetdata/final_model_with_smsnetdata_1-5/MHCSeqNet2_1_5.h5',
+        'resources/trained_weight/final_model_with_smsnetdata/final_model_with_smsnetdata_2-5/MHCSeqNet2_2_5.h5',
+        'resources/trained_weight/final_model_with_smsnetdata/final_model_with_smsnetdata_3-5/MHCSeqNet2_3_5.h5',
+        'resources/trained_weight/final_model_with_smsnetdata/final_model_with_smsnetdata_4-5/MHCSeqNet2_4_5.h5',
+        'resources/trained_weight/final_model_with_smsnetdata/final_model_with_smsnetdata_5-5/MHCSeqNet2_5_5.h5',
     ]
     # TODO: properly treat USE_ENSEMBLE flag, need to check if we need to rebuild inference_pipeline
     prediction_list = []
