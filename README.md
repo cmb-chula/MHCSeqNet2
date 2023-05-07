@@ -17,6 +17,7 @@ This is the official repository containing the code to reproduce result founded 
 - [Data Preparation](#data-preparation)
   - [Prepare Pre-training Dataset](#prepare-pre-training-dataset)
   - [Prepare Predictor Dataset](#prepare-predictor-dataset)
+- [Dataset References](#dataset-references)
 
 ## Quick Message from the owner
 
@@ -470,6 +471,16 @@ python scripts/prepare_pretraining_3d_allele.py
 
 ### Prepare Predictor Dataset
 
+The first HLA binding dataset (`HLA_classI_MS_dataset_011320`) comes from combining several mass spectrometry-based mono-allelic HLA peptidomics studies [[1]](#1)[[2]](#2)[[3]](#3)[[4]](#4)[[5]](#5) with peptide-HLA pairs curated by the Immune Epitope Database (IEDB[[6]](#6)). Duplicated peptide-HLA pairs and peptides with modifications were removed. In total, there were 514,928 peptide-HLA pairs across 164 alleles
+
+The second HLA binding dataset (`antigen_information_051821_rev1`) was
+derived by applying SMSNet, a de novo peptide sequencing
+tool, to re-analyze two large mono-allelic HLA peptidomics
+datasets [[3]](#3)[[4]](#4). This new dataset was recently explored [[7]](#7)
+but has not yet been utilized for HLA binding prediction. In
+total, 43,190 new peptide-HLA pairs across 89 alleles with
+peptide lengths within 8-15 amino acids were identified.
+
 1. Obtain dataset from release page
 
 ```shell
@@ -483,3 +494,66 @@ wget -c https://github.com/cmb-chula/MHCSeqNet2/releases/download/v1.0/antigen_i
 ```shell
 python scripts/prepare.py
 ```
+
+## Dataset References
+<a id="1">[1]</a> 
+M. Di Marco, H. Schuster, L. Backert, M. Ghosh, H.-G. Rammensee,
+and S. Stevanovi ́c, “Unveiling the Peptide Motifs of HLA-C and HLA-G
+from Naturally Presented Peptides and Generation of Binding Prediction
+Matrices,” J Immunol, vol. 199, DOI 10.4049/jimmunol.1700938, no. 8,
+pp. 2639–2651, Sep. 2017. [Online]. Available: [https://doi.org/10.4049/jimmunol.1700938](https://doi.org/10.4049/jimmunol.1700938)
+
+<a id="2">[2]</a> 
+M. Solleder, P. Guillaume, J. Racle, J. Michaux, H.-S. Pak, M. Müller,
+G. Coukos, M. Bassani-Sternberg, and D. Gfeller, “Mass Spectrometry
+Based Immunopeptidomics Leads to Robust Predictions of Phospho-
+rylated HLA Class I Ligands,” Mol Cell Proteomics, vol. 19, DOI
+10.1074/mcp.TIR119.001641, no. 2, pp. 390–404, Dec. 2019. [Online].
+Available: [https://doi.org/10.1074/mcp.TIR119.001641](https://doi.org/10.1074/mcp.TIR119.001641)
+
+<a id="3">[3]</a> 
+J. G. Abelin, D. B. Keskin, S. Sarkizova, C. R. Hartigan, W. Zhang,
+J. Sidney, J. Stevens, W. Lane, G. L. Zhang, T. M. Eisenhaure, K. R.
+Clauser, N. Hacohen, M. S. Rooney, S. A. Carr, and C. J. Wu, “Mass
+Spectrometry Profiling of HLA-Associated Peptidomes in Mono-allelic
+Cells Enables More Accurate Epitope Prediction,” Immunity, vol. 46,
+DOI https://doi.org/10.1016/j.immuni.2017.02.007, no. 2, pp. 315–326,
+Feb. 2017. [Online]. Available: [https://www.sciencedirect.com/science/article/pii/S1074761317300420](https://www.sciencedirect.com/science/article/pii/S1074761317300420)
+
+<a id="4">[4]</a> 
+S. Sarkizova, S. Klaeger, P. M. Le, L. W. Li, G. Oliveira, H. Keshishian,
+C. R. Hartigan, W. Zhang, D. A. Braun, K. L. Ligon, P. Bachireddy, I. K.
+Zervantonakis, J. M. Rosenbluth, T. Ouspenskaia, T. Law, S. Justesen,
+J. Stevens, W. J. Lane, T. Eisenhaure, G. Lan Zhang, K. R. Clauser,
+N. Hacohen, S. A. Carr, C. J. Wu, and D. B. Keskin, “A large
+peptidome dataset improves HLA class I epitope prediction across
+most of the human population,” Nature Biotechnology, vol. 38, DOI
+10.1038/s41587-019-0322-9, no. 2, pp. 199–209, Feb. 2020. [Online].
+Available: [https://doi.org/10.1038/s41587-019-0322-9](https://doi.org/10.1038/s41587-019-0322-9)
+
+<a id="5">[5]</a> 
+J. G. Abelin, D. Harjanto, M. Malloy, P. Suri, T. Colson, S. P.
+Goulding, A. L. Creech, L. R. Serrano, G. Nasir, Y. Nasrul-
+lah, C. D. McGann, D. Velez, Y. S. Ting, A. Poran, D. A.
+Rothenberg, S. Chhangawala, A. Rubinsteyn, J. Hammerbacher,
+R. B. Gaynor, E. F. Fritsch, J. Greshock, R. C. Oslund,
+D. Barthelme, T. A. Addona, C. M. Arieta, and M. S. Rooney,
+“Defining HLA-II Ligand Processing and Binding Rules with
+Mass Spectrometry Enhances Cancer Epitope Prediction,” Immunity,
+vol. 51, DOI 10.1016/j.immuni.2019.08.012, no. 4, pp. 766–779.e17,
+2019. [Online]. Available: [https://www.sciencedirect.com/science/article/pii/S1074761319303632](https://www.sciencedirect.com/science/article/pii/S1074761319303632)
+
+<a id="6">[6]</a> 
+R. Vita, S. Mahajan, J. A. Overton, S. K. Dhanda, S. Martini, J. R.
+Cantrell, D. K. Wheeler, A. Sette, and B. Peters, “The Immune Epitope
+Database (IEDB): 2018 update,” Nucleic Acids Research, vol. 47, DOI
+10.1093/nar/gky1006, no. D1, pp. D339–D343, 10 2018. [Online].
+Available: [https://doi.org/10.1093/nar/gky1006](https://doi.org/10.1093/nar/gky1006)
+
+<a id="7">[7]</a> 
+B. Reynisson, B. Alvarez, S. Paul, B. Peters, and M. Nielsen,
+“NetMHCpan-4.1 and NetMHCIIpan-4.0: improved predictions of MHC
+antigen presentation by concurrent motif deconvolution and integration
+of MS MHC eluted ligand data,” Nucleic Acids Research, vol. 48, DOI
+10.1093/nar/gkaa379, no. W1, pp. W449–W454, 05 2020. [Online].
+Available: [https://doi.org/10.1093/nar/gkaa379](https://doi.org/10.1093/nar/gkaa379)
